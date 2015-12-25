@@ -63,7 +63,7 @@ function greek_register_required_plugins() {
             'required'           => true,
             'external_url'       => '',
      ),
-		
+
         // Plugins from the WordPress Plugin Repository.
 		array(
             'name'               => esc_html__('Shortcodes Ultimate', 'greek'),
@@ -181,7 +181,7 @@ function greek_register_required_plugins() {
     tgmpa($plugins, $config);
 
 }
-add_action('tgmpa_register', 'greek_register_required_plugins'); 
+add_action('tgmpa_register', 'greek_register_required_plugins');
 
 //Init the Redux Framework
 if(class_exists('ReduxFramework') && !isset($redux_demo) && file_exists(get_template_directory().'/theme-config.php')) {
@@ -197,7 +197,7 @@ remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrap
 function greek_override_woocommerce_widgets() {
 	//Show mini cart on all pages
 	if(class_exists('WC_Widget_Cart')) {
-		unregister_widget('WC_Widget_Cart'); 
+		unregister_widget('WC_Widget_Cart');
 		include_once(get_template_directory() . '/woocommerce/class-wc-widget-cart.php');
 		register_widget('Custom_WC_Widget_Cart');
 	}
@@ -208,14 +208,14 @@ add_action('widgets_init', 'greek_override_woocommerce_widgets', 15);
 function greek_woocommerce_header_add_to_cart_fragment($fragments) {
 	ob_start();
 	?>
-	
+
 	<span class="mcart-number"><?php echo WC()->cart->cart_contents_count; ?></span>
-	
+
 	<?php
 	$fragments['span.mcart-number'] = ob_get_clean();
-	
+
 	return $fragments;
-} 
+}
 add_filter('woocommerce_add_to_cart_fragments', 'greek_woocommerce_header_add_to_cart_fragment');
 
 //Change price html
@@ -225,11 +225,11 @@ function greek_woo_price_html($price,$product){
 		if($product->price && isset($product->regular_price) &&($product->price!=$product->regular_price)) {
 			$from = $product->regular_price;
 			$to = $product->price;
-			
+
 			return '<span class="old-price">'.((is_numeric($from)) ? woocommerce_price($from) : $from) .'</span><span class="special-price">'.((is_numeric($to)) ? woocommerce_price($to) : $to) .'</span>';
 		} else {
 			$to = $product->price;
-			
+
 			return '<span class="special-price">' .((is_numeric($to)) ? woocommerce_price($to) : $to) . '</span>';
 		}
 	} else {
@@ -242,11 +242,11 @@ add_filter('woocommerce_get_price_html', 'greek_woo_price_html', 100, 2);
 function greek_woocommerce_category_image() {
 	if(is_product_category()){
 		global $wp_query;
-		
+
 		$cat = $wp_query->get_queried_object();
 		$thumbnail_id = get_woocommerce_term_meta($cat->term_id, 'thumbnail_id', true);
 		$image = wp_get_attachment_url($thumbnail_id);
-		
+
 		if($image) {
 			echo '<p class="category-image-desc"><img src="' . esc_url($image) . '" alt="" /></p>';
 		}
@@ -257,7 +257,7 @@ add_action('woocommerce_archive_description', 'greek_woocommerce_category_image'
 // Change products per page
 function greek_woo_change_per_page() {
 	global $greek_options;
-	
+
 	return $greek_options['product_per_page'];
 }
 add_filter('loop_shop_per_page', 'greek_woo_change_per_page', 20);
@@ -266,14 +266,14 @@ add_filter('loop_shop_per_page', 'greek_woo_change_per_page', 20);
 //add_filter('woocommerce_shortcode_products_query', 'greek_woocommerce_shortcode_limit');
 function greek_woocommerce_shortcode_limit($args) {
 	global $greek_options, $greek_productsfound;
-	
+
 	if(isset($greek_options['shortcode_limit']) && $args['posts_per_page']==-1) {
 		$args['posts_per_page'] = $greek_options['shortcode_limit'];
 	}
-	
+
 	$greek_productsfound = new WP_Query($args);
 	$greek_productsfound = $greek_productsfound->post_count;
-	
+
 	return $args;
 }
 
@@ -335,8 +335,8 @@ function greek_product_stock_status(){
 	</div>
 	<?php
 }
-add_action('woocommerce_single_product_summary', 'greek_product_stock_status', 20); 
- 
+add_action('woocommerce_single_product_summary', 'greek_product_stock_status', 20);
+
 //Show countdown on product page
 function greek_product_countdown(){
 	global $product;
@@ -365,10 +365,10 @@ function greek_product_countdown(){
 			<?php /* variable product */
 			if($product->children){
 				$vsale_end = array();
-				
+
 				foreach($product->children as $pvariable){
 					$vsale_end[] =(int)get_post_meta($pvariable, '_sale_price_dates_to', true);
-					
+
 					if(get_post_meta($pvariable, '_sale_price_dates_to', true)){
 						$countdown = true;
 					}
@@ -387,8 +387,8 @@ function greek_product_countdown(){
 	</div>
 	<?php
 }
-//add_action('woocommerce_single_product_summary', 'greek_product_countdown', 15); 
- 
+//add_action('woocommerce_single_product_summary', 'greek_product_countdown', 15);
+
 //Show buttons wishlist, compare, email on product page
 function greek_product_buttons(){
 	global $product;
@@ -414,8 +414,8 @@ remove_action('projects_before_single_project_summary', 'projects_template_singl
 remove_action('projects_before_single_project_summary', 'projects_template_single_gallery', 40);
 add_action('projects_single_project_gallery', 'projects_template_single_gallery', 40);
 //projects list
-remove_action('projects_loop_item', 'projects_template_loop_project_title', 20); 
- 
+remove_action('projects_loop_item', 'projects_template_loop_project_title', 20);
+
 //Change search form
 function greek_search_form($form) {
 	if(get_search_query()!=''){
@@ -423,7 +423,7 @@ function greek_search_form($form) {
 	} else {
 		$search_str = esc_html__('Search...', 'greek');
 	}
-	
+
 	$form = '<form role="search" method="get" id="blogsearchform" class="searchform" action="' . esc_url(home_url('/')). '" >
 	<div class="form-input">
 		<input class="input_text" type="text" value="'.esc_attr($search_str).'" name="s" id="search_input" />
@@ -453,18 +453,18 @@ function greek_search_form($form) {
 	$form .= '</script>';
 	return $form;
 }
-add_filter('get_search_form', 'greek_search_form'); 
- 
+add_filter('get_search_form', 'greek_search_form');
+
 //Change woocommerce search form
 function greek_woo_search_form($form) {
 	global $wpdb;
-	
+
 	if(get_search_query()!=''){
 		$search_str = get_search_query();
 	} else {
 		$search_str = esc_html__('Search products...', 'greek');
 	}
-	
+
 	$form = '<form role="search" method="get" id="searchform" action="'.esc_url(home_url('/')).'">';
 		$form .= '<div>';
 			$form .= '<input type="text" value="'.esc_attr($search_str).'" name="s" id="ws" placeholder="" />';
@@ -475,7 +475,7 @@ function greek_woo_search_form($form) {
 	$form .= '<script type="text/javascript">';
 	$form .= 'jQuery(document).ready(function(){
 		jQuery("#ws").focus(function(){
-			if(jQuery(this).val()=="'.esc_html__('Search products...', 'greek').'"){
+			if(jQuery(this).val()=="'.esc_html__('Cari Produk', 'greek').'"){
 				jQuery(this).val("");
 			}
 		});
@@ -494,8 +494,8 @@ function greek_woo_search_form($form) {
 	$form .= '</script>';
 	return $form;
 }
-add_filter('get_product_search_form', 'greek_woo_search_form'); 
- 
+add_filter('get_product_search_form', 'greek_woo_search_form');
+
 //Add breadcrumbs
 function greek_breadcrumb() {
 	global $post;
@@ -564,10 +564,10 @@ function greek_limitStringByWord($string, $maxlength, $suffix = '') {
 			return substr($string, 0, $index).$suffix;
 		}
 	}
-} 
+}
 // Set up the content width value based on the theme's design and stylesheet.
 if(! isset($content_width))
-	$content_width = 625; 
+	$content_width = 625;
 
 
 function greek_setup() {
@@ -601,7 +601,7 @@ function greek_setup() {
 	add_theme_support('custom-background', array(
 		'default-color' => 'e6e6e6',
 	));
-	
+
 	/*
 	 * Let WordPress manage the document title.
 	 * By adding theme support, we declare that this theme does not use a
@@ -609,7 +609,7 @@ function greek_setup() {
 	 * provide it for us.
 	 */
 	add_theme_support('title-tag');
-	
+
 	// This theme uses a custom image size for featured images, displayed on "standard" posts.
 	add_theme_support('post-thumbnails');
 
@@ -618,8 +618,8 @@ function greek_setup() {
 	add_image_size('greek-post-thumb', 300, 200, true); //(cropped)
 	add_image_size('greek-post-thumbwide', 570, 352, true); //(cropped)
 }
-add_action('after_setup_theme', 'greek_setup'); 
- 
+add_action('after_setup_theme', 'greek_setup');
+
 function greek_get_font_url() {
 	$font_url = '';
 
@@ -651,58 +651,58 @@ function greek_get_font_url() {
 
 	return $font_url;
 }
- 
+
 function greek_scripts_styles() {
 	global $wp_styles, $wp_scripts, $greek_options;
-	
+
 	/*
 	 * Adds JavaScript to pages with the comment form to support
 	 * sites with threaded comments(when in use).
 	*/
-	
+
 	if(is_singular() && comments_open() && get_option('thread_comments'))
 		wp_enqueue_script('comment-reply');
-	
+
 	if(!is_admin()) {
 		// Add Bootstrap JavaScript
 		wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/js/bootstrap.min.js', array('jquery'), '3.2.0', true);
-		
+
 		// Add jQuery Cookie
-		wp_enqueue_script('jquery-cookie', get_template_directory_uri() . '/js/jquery.cookie.js', array('jquery'), '1.4.1', true);		
-		
+		wp_enqueue_script('jquery-cookie', get_template_directory_uri() . '/js/jquery.cookie.js', array('jquery'), '1.4.1', true);
+
 		// Add Fancybox
 		wp_enqueue_script('greek-fancybox', get_template_directory_uri() . '/js/fancybox/jquery.fancybox.pack.js', array('jquery'), '2.1.5', true);
 		wp_enqueue_style('greek-fancybox-css', get_template_directory_uri() . '/js/fancybox/jquery.fancybox.css', array(), '2.1.5');
 		wp_enqueue_script('greek-fancybox-buttons', get_template_directory_uri() . '/js/fancybox/helpers/jquery.fancybox-buttons.js', array('jquery'), '1.0.5', true);
 		wp_enqueue_style('greek-fancybox-buttons', get_template_directory_uri() . '/js/fancybox/helpers/jquery.fancybox-buttons.css', array(), '1.0.5');
-				
+
 		//Superfish
 		wp_enqueue_script('greek-superfish-js', get_template_directory_uri() . '/js/superfish/superfish.min.js', array('jquery'), '1.3.15', true);
-	
+
 		//Add Shuffle js
 		wp_enqueue_script('greek-modernizr-js', get_template_directory_uri() . '/js/modernizr.custom.min.js', array('jquery'), '2.6.2', true);
 		wp_enqueue_script('greek-shuffle-js', get_template_directory_uri() . '/js/jquery.shuffle.min.js', array('jquery'), '3.0.0', true);
-		
+
 		// Add owl.carousel files
 		wp_enqueue_script('owl.carousel', 	get_template_directory_uri() . '/js/owl.carousel.js', array('jquery'));
 		wp_enqueue_style('owl.carousel', 	get_template_directory_uri() . '/css/owl.carousel.css');
 		wp_enqueue_style('owl.theme', 		get_template_directory_uri() . '/css/owl.theme.css');
-		
+
 		// Add theme.js file
 		wp_enqueue_script('greek-theme-js', get_template_directory_uri() . '/js/theme.js', array('jquery'), '20140826', true);
 	}
-	
+
 	$font_url = greek_get_font_url();
 	if(! empty($font_url))
 		wp_enqueue_style('greek-fonts', esc_url_raw($font_url), array(), null);
-	
+
 	if(!is_admin()) {
 		// Loads our main stylesheet.
 		wp_enqueue_style('greek-style', get_stylesheet_uri());
 
 		// Load fontawesome css
 		wp_enqueue_style('fontawesome-css', get_template_directory_uri() . '/css/font-awesome.min.css', array(), '4.2.0');
-		
+
 		// Load bootstrap css
 		wp_enqueue_style('bootstrap-css', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '3.2.0');
 	}
@@ -721,7 +721,7 @@ function greek_scripts_styles() {
 		$presetopt = $greek_options['preset_option'];
 	}
 	if(!isset($presetopt)) $presetopt = 1; /* in case first time install theme, no options found */
-	
+
 	if($greek_options['enable_less']){
 		$themevariables = array(
 			'heading_font'=> $greek_options['headingfont']['font-family'],
@@ -751,7 +751,7 @@ function greek_scripts_styles() {
 			compileLessFile('ie.less', 'ie'.$presetopt.'.css', $themevariables);
 		}
 	}
-	
+
 	if(!is_admin()) {
 		// Load main theme css style
 		wp_enqueue_style('greek-css', get_template_directory_uri() . '/css/theme'.$presetopt.'.css', array(), '1.0.0');
@@ -786,7 +786,7 @@ if(file_exists(get_template_directory().'/include/wooajax.php')) {
 if(file_exists(get_template_directory().'/include/shortcodes.php')) {
     require_once(get_template_directory().'/include/shortcodes.php');
 }
- 
+
 function greek_mce_css($mce_css) {
 	$font_url = greek_get_font_url();
 
@@ -800,7 +800,7 @@ function greek_mce_css($mce_css) {
 
 	return $mce_css;
 }
-add_filter('mce_css', 'greek_mce_css'); 
+add_filter('mce_css', 'greek_mce_css');
 
 /**
  * Filter the page menu arguments.
@@ -824,7 +824,7 @@ add_filter('wp_page_menu_args', 'greek_page_menu_args');
  * @since VinaGecko 1.0
  */
 function greek_widgets_init() {
-	
+
 	register_sidebar(array(
 		'name' => esc_html__('Blog Sidebar', 'greek'),
 		'id' => 'sidebar-1',
@@ -834,7 +834,7 @@ function greek_widgets_init() {
 		'before_title' => '<h3 class="widget-title"><span>',
 		'after_title' => '</span></h3>',
 	));
-	
+
 	register_sidebar(array(
 		'name' => esc_html__('Category Sidebar', 'greek'),
 		'id' => 'sidebar-category',
@@ -862,7 +862,7 @@ function greek_widgets_init() {
 		'before_title' => '<h3 class="widget-title"><span>',
 		'after_title' => '</span></h3>',
 	));
-	
+
 	register_sidebar(array(
 		'name' => esc_html__('Widget Bottom 1', 'greek'),
 		'id' => 'bottom-1',
@@ -903,7 +903,7 @@ function greek_widgets_init() {
 		'before_title' => '<div class="bottom-static-title"><h4>',
 		'after_title' => '</h4></div>',
 	));
-	
+
 	register_sidebar(array(
 		'name' => esc_html__('Widget Footer 1', 'greek'),
 		'id' => 'footer-1',
@@ -979,7 +979,7 @@ function greek_pagination() {
 	global $wp_query;
 
 	$big = 999999999; // need an unlikely integer
-	
+
 	echo paginate_links(array(
 		'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
 		'format' => '?paged=%#%',
@@ -998,7 +998,7 @@ function greek_entry_meta() {
 
 	// Translators: used between list items, there is a space after the comma.
 	$tag_list = get_the_tag_list('', esc_html__(', ', 'greek'));
-	
+
 	$date = sprintf('<time class="entry-date" datetime="%3$s">%4$s</time>',
 		esc_url(get_permalink()),
 		esc_attr(get_the_time()),
@@ -1011,7 +1011,7 @@ function greek_entry_meta() {
 		esc_attr(sprintf(esc_html__('View all posts by %s', 'greek'), get_the_author())),
 		get_the_author()
 	);
-	
+
 	$num_comments =(int)get_comments_number();
 	$write_comments = '';
 	if(comments_open()) {
@@ -1028,7 +1028,7 @@ function greek_entry_meta() {
 	// Translators: 1 is author's name, 2 is date, 3 is the tags and 4 is comments.
 
 	$utility_text = wp_kses(__('Posted by %1$s<span class="separator">/</span>%2$s<span class="separator">/</span>%3$s<span class="tagslist"><span class="separator">/</span>%4$s</span>', 'greek'), array('span' => array()));
-	
+
 	printf($utility_text, $author, $categories_list, $write_comments, $tag_list);
 }
 endif;
@@ -1042,7 +1042,7 @@ function greek_entry_meta_small() {
 		esc_attr(sprintf(esc_html__('View all posts by %s', 'greek'), get_the_author())),
 		get_the_author()
 	);
-	
+
 	$num_comments =(int)get_comments_number();
 	$write_comments = '';
 	if(comments_open()) {
@@ -1055,7 +1055,7 @@ function greek_entry_meta_small() {
 		}
 		$write_comments = '<a href="' . esc_url(get_comments_link()) .'">'. $comments.'</a>';
 	}
-	
+
 	$utility_text = wp_kses(__('Posted by %1$s<span class="separator">/</span>%2$s<span class="separator">/</span>%3$s', 'greek'), array('span' => array()));
 
 	printf($utility_text, $author, $categories_list, $write_comments);
@@ -1093,8 +1093,8 @@ function greek_meta_box_callback($post) {
 	echo '</label><br />';
 	//echo '<textarea id="greek_post_intro" name="greek_post_intro" rows="5" cols="50" />' . esc_attr($value) . '</textarea>';
 	wp_editor($value, 'greek_post_intro', $settings = array());
-	
-	
+
+
 }
 
 function greek_save_meta_box_data($post_id) {
@@ -1134,7 +1134,7 @@ function greek_save_meta_box_data($post_id) {
 	}
 
 	/* OK, it's safe for us to save the data now. */
-	
+
 	// Make sure that it is set.
 	if(! isset($_POST['greek_post_intro'])) {
 		return;
@@ -1182,7 +1182,7 @@ function greek_comment($comment, $args, $depth) {
 			<div class="comment-info">
 				<header class="comment-meta comment-author vcard">
 					<?php
-						
+
 						printf('<cite><b class="fn">%1$s</b> %2$s</cite>',
 							get_comment_author_link(),
 							// If current post author is also comment author, make it known visually.
@@ -1225,8 +1225,8 @@ function greek_after_comment_fields() {
 }
 add_action('comment_form_after_fields', 'greek_after_comment_fields');
 
-endif; 
- 
+endif;
+
 function greek_customize_register($wp_customize) {
 	$wp_customize->get_setting('blogname')->transport         = 'postMessage';
 	$wp_customize->get_setting('blogdescription')->transport  = 'postMessage';
@@ -1241,7 +1241,7 @@ add_action('customize_register', 'greek_customize_register');
  *
  * @since VinaGecko 1.0
  */
- 
+
 add_action('wp_enqueue_scripts', 'wcqi_enqueue_polyfill');
 function wcqi_enqueue_polyfill() {
     wp_enqueue_script('wcqi-number-polyfill');
@@ -1266,7 +1266,7 @@ function removeDemoModeLink()
         remove_filter('plugin_row_meta', array(ReduxFrameworkPlugin::get_instance(), 'plugin_metalinks'), null, 2);
     }
     if(class_exists('ReduxFrameworkPlugin')) {
-        remove_action('admin_notices', array(ReduxFrameworkPlugin::get_instance(), 'admin_notices'));    
+        remove_action('admin_notices', array(ReduxFrameworkPlugin::get_instance(), 'admin_notices'));
     }
 }
 add_action('init', 'removeDemoModeLink');
