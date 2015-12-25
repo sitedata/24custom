@@ -13,16 +13,13 @@
 				</li>
       </ul >
     </div>
-    <?php if ( get_theme_mod( 'maxstore_socials', 0 ) == 1 ) { $row = '6';} else { $row = '10'; } ?>
+    <?php if ( get_theme_mod( 'maxstore_socials', 0 ) == 1 ) { $row = '10';} else { $row = '10'; } ?>
     <div class="header-search-form col-md-<?php echo $row; ?>">
-      <div class="header-search-title col-sm-2">
-        <?php _e('Search','maxstore'); ?>
-      </div>
       <form role="search" method="get" action="<?php echo get_permalink( woocommerce_get_page_id( 'shop' ) ); ?>">
         <select class="col-sm-3" name="product_cat">
-            <option value=""><?php echo esc_attr(__('All','maxstore')); ?></option> 
-             <?php 
-              $categories = get_categories('taxonomy=product_cat'); 
+            <option value=""><?php echo esc_attr(__('All','maxstore')); ?></option>
+             <?php
+              $categories = get_categories('taxonomy=product_cat');
               foreach ($categories as $category) {
               	$option = '<option value="'.$category->category_nicename.'">';
             	$option .= $category->cat_name;
@@ -40,9 +37,9 @@
     <?php if ( get_theme_mod( 'maxstore_socials', 0 ) == 1 ) : ?>
       <div class="social-section col-md-4">
           <span class="social-section-title hidden-md">
-            <?php _e('Follow Us','maxstore'); ?> 
+            <?php _e('Follow Us','maxstore'); ?>
           </span>
-          <?php maxstore_social_links();?>              
+          <?php maxstore_social_links();?>
       </div>
-    <?php endif; ?> 
+    <?php endif; ?>
 </div>
