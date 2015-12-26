@@ -701,10 +701,10 @@ function greek_scripts_styles() {
 		wp_enqueue_style('greek-style', get_stylesheet_uri());
 
 		// Load fontawesome css
-		wp_enqueue_style('fontawesome-css', get_template_directory_uri() . '/css/font-awesome.min.css', array(), '4.2.0');
+		wp_enqueue_style('fontawesome-css', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css', array(), '4.5.0');
 
 		// Load bootstrap css
-		wp_enqueue_style('bootstrap-css', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '3.2.0');
+		wp_enqueue_style('bootstrap-css', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'', array(), '3.2.0');
 	}
 	// Compile Less to CSS
 	$previewpreset =(isset($_REQUEST['preset']) ? $_REQUEST['preset'] : null);

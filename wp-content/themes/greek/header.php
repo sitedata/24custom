@@ -21,7 +21,14 @@
 <!--<![endif]-->
 
 <head>
-
+	<?php
+	if ( substr_count( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip' ) ) {
+	    ob_start( "ob_gzhandler" );
+	}
+	else {
+	    ob_start();
+	}
+	?>
 <?php global $woocommerce, $greek_options; ?>
 
 <meta charset="<?php bloginfo('charset'); ?>" />
@@ -96,7 +103,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="header">
 				<div class="container">
 					<div class="row">
@@ -128,7 +135,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Menu -->
 	<div class="sp-menu">
 		<div class="container">
