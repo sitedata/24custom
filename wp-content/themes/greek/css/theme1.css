@@ -565,7 +565,7 @@ caption {
   border: 3px solid #393939;
 }
 #header-menu #mega_main_menu.primary > .menu_holder > .menu_inner > ul > li.multicolumn_dropdown > ul > li {
-  padding: 0 10px;
+  padding: 0px;
 }
 #header-menu #mega_main_menu.primary > .menu_holder > .menu_inner > ul > li.multicolumn_dropdown > ul > li > .item_link {
   font-weight: normal;
