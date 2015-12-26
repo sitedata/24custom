@@ -4,7 +4,7 @@ Plugin Name: VG WooCarousel
 Plugin URI: http://themeforest.net/user/vinawebsolutions/portfolio
 Description: Products Carousel for WooCommerce. You can set unlimited carousel anywhere via short-codes and easy admin setting.
 Author: VinaWebSolutions
-Version: 1.1
+Version: 1.3
 Author URI: http://themeforest.net/user/vinawebsolutions/portfolio
 */
 
@@ -69,6 +69,9 @@ function vgwc_display($atts, $content = null)
 	$atts 			= shortcode_atts(array('id' => ""), $atts);
 	$post_id 		= $atts['id'];
 	$vgwc_theme 	= get_post_meta($post_id, 'vgwc_theme', true);
+	
+	if(empty($vgwc_theme)) return __("Carousel ID: {$post_id} not found!", "vgwc");
+	
 	$vgwc_theme 	= vgwc_get_theme_path($vgwc_theme);
 	$vgwc_display 	= "";
 	

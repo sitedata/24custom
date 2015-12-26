@@ -223,6 +223,13 @@ function meta_boxes_vgwc_input($post)
 		</div>
 		
 		
+		<!-- Notice Message -->
+		<div class="option-box notice-message" style="margin-top: 20px; color: red; font-size: 16px;">
+			You're using <b>Trial Version</b>. You can buy <b>Full Version</b> here: <a target="_blank" href="http://codecanyon.net/item/vg-woocarousel-product-carousel-for-woocommerce/12931124?ref=VinaWebSolutions">http://codecanyon.net/item/x/12931124</a>.
+			</a>
+		</div>
+		
+		
 		<!-- Tab Header Block -->
         <ul class="tab-nav"> 
             <li nav="1" class="nav1 active"><?php esc_html_e("Global Setting", "vgwc"); ?></li>
@@ -497,16 +504,13 @@ function meta_boxes_vgwc_input($post)
             <li style="display: none;" class="box3 tab-box ">
 				<div class="control-group">
 					<div class="control-label"><label><?php _e('Category to Filter', 'vgwc'); ?>:</label></div>
-					<div class="controls">
+					<div class="controls">						
 						<select class="dropdown" name="vgwc_category[]" multiple="true">						
 							<option value="0"<?php echo ($vgwc_category == 'all') ? ' selected="selected"' : ""; ?>><?php _e('All Categories', 'vgwc'); ?></option>
-							<?php
-								$cats = vgwc_get_all_categories();
-								foreach($cats as $cat) {
-									$vgwc_pos = strpos($vgwc_category, $cat->slug);
-									echo '<option value="'.$cat->slug.'"'.(($vgwc_category != 'all' && ($vgwc_pos !== false)) ? ' selected="selected"' : '').'>'.$cat->name.'</option>';
-								}
-							?>
+							<?php 
+								$vgwc_categories = explode(",", $vgwc_category);
+								echo vgwc_rent_list_categories(0, $vgwc_categories);
+							?>							
 						</select>
 					</div>
 				</div>

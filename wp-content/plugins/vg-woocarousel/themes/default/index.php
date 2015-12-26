@@ -351,7 +351,7 @@ function vgwc_body_default($post_id)
 	$vgwc_html .= '</div>';
 	
 	/* Reset Query */
-	wp_reset_query();
+	wp_reset_postdata();
 	
 	/* Javascript Block */
 	if($vgwc_total_items)

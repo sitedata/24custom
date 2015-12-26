@@ -47,6 +47,9 @@
 				
 				<h2><strong>Plugin Change logs:</strong></h2>
 				<p><strong>#####VERSION 1.0 - September 19, 2015#####</strong><br>- First release.</p>
+				<p><strong>#####VERSION 1.1 - September 23, 2015#####</strong><br>- Improve the load speed of carousel.<br>- Add new Left Offset param to set carousel display full width.</p>
+				<p><strong>#####VERSION 1.2 - November 04, 2015#####</strong><br>- Display sub-categories in Category to Filter.<br>- Load Products from sub-categories/childrent categories.</p>
+				<p><strong>#####VERSION 1.3 - November 17, 2015#####</strong><br>- Fix bug: Display message when no carousel found.<br>- Improve: replace function wp_reset_query() by wp_reset_postdata()</p>				
 			</li>
 		</ul>
 	</div>

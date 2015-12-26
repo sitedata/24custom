@@ -1,9 +1,16 @@
 <?php
-function vgwc_get_all_categories()
+function vgwc_rent_list_categories($parent = 0, $active = array(), $level = "")
 {
-	$terms = get_terms('product_cat' , array('hide_empty' => false, 'hierarchical' => true, 'parent' => 0));
-	if(!is_wp_error($terms)) return $terms;
-	else return array();
+	$cats = get_terms('product_cat' , array('hide_empty' => false, 'hierarchical' => true, 'parent' => $parent));
+	
+	if(!empty($cats)) {
+		foreach($cats as $cat) {
+			$return  .= '<option value="'.$cat->slug.'"'.((in_array($cat->slug, $active)) ? ' selected="selected"' : '').'>'.$level.$cat->name.'</option>';
+			$return  .= vgwc_rent_list_categories($cat->term_id, $active, $level . "--");
+		}		
+	}
+	
+	return $return;
 }
 
 
